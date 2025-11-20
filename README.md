@@ -1,11 +1,34 @@
 
   # NutriVision.ai Website UI Design
 
-  This is a code bundle for NutriVision.ai Website UI Design. The original project is available at https://www.figma.com/design/0o8KSvOQTjPfZwPAb18wNC/NutriVision.ai-Website-UI-Design.
+  ## add env file &
+  # Server Configuration
+  PORT=5001
+
+  # JWT Secret
+  JWT_SECRET=your_jwt_secret_here
+
+  # Google API Key (Vision API + Gemini)
+  GOOGLE_API_KEY=your_google_api_key_here
+
+  # Food Analysis API (Google Vision)
+  FOOD_ANALYSIS_API_KEY=your_food_analysis_api_key_here
+
+  # Chatbot API (Google Gemini)
+  CHATBOT_API_KEY=your_chatbot_api_key_here
+
+  # MongoDB Connection String
+  MONGODB_URI=your_mongodb_connection_string_here
+
+  # Clarifai API Key
+  CLARIFAI_API_KEY=your_clarifai_api_key_here
+
 
   ## Running the code
+
 
   Run `npm i` to install the dependencies.
 
   Run `npm run dev` to start the development server.
+
   
