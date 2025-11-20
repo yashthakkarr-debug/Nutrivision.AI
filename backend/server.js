@@ -83,9 +83,9 @@ const startServer = async (port) => {
     return;
   }
   
-  const server = app.listen(portNumber, '127.0.0.1', () => {
-    console.log(`🚀 Server running on http://localhost:${portNumber}`);
-    console.log(`📡 API available at http://localhost:${portNumber}/api`);
+  const server = app.listen(portNumber, '0.0.0.0', () => {
+    console.log(`🚀 Server running on port ${portNumber}`);
+    console.log(`📡 API available at http://0.0.0.0:${portNumber}/api`);
     if (mongoose.connection.readyState === 1) {
       console.log(`💾 Database: Connected to ${mongoose.connection.name}`);
     } else {
