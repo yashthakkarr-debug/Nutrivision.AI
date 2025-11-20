@@ -1,4 +1,5 @@
 // OAuth helper functions
+import { BASE_URL } from '../config.js';
 
 // Google OAuth - Using Google Identity Services
 export const initGoogleSignIn = () => {
@@ -34,7 +35,7 @@ export const handleGoogleSignIn = async () => {
       callback: async (response) => {
         try {
           // Send credential to backend
-          const backendResponse = await fetch('http://localhost:5001/api/auth/google', {
+          const backendResponse = await fetch(`${BASE_URL}/auth/google`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -89,7 +90,7 @@ export const handleAppleSignIn = async () => {
     const response = await window.AppleID.auth.signIn();
 
     // Send to backend
-    const backendResponse = await fetch('http://localhost:5001/api/auth/apple', {
+    const backendResponse = await fetch(`${BASE_URL}/auth/apple`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -11,6 +11,7 @@ import { ProfileScreen } from './components/ProfileScreen';
 import { ChatbotFloat } from './components/ChatbotFloat';
 import { Navbar } from './components/Navbar';
 import { authAPI } from './utils/api';
+import { BASE_URL } from './config';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('login');
@@ -20,6 +21,35 @@ export default function App() {
   const [analysisData, setAnalysisData] = useState(null);
   const [userName, setUserName] = useState('User');
   const [user, setUser] = useState(null);
+  const [foodData, setFoodData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Example: Fetch food data from backend
+  const fetchFoodData = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${BASE_URL}/food`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch food data');
+      }
+      
+      const data = await response.json();
+      setFoodData(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Error fetching food data:', error);
+      setFoodData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Check if user is already logged in
   useEffect(() => {
@@ -184,6 +214,33 @@ export default function App() {
         {/* Chatbot - show only when authenticated and NOT on chat page */}
         {isAuthenticated && currentScreen !== 'login' && currentScreen !== 'signup' && currentScreen !== 'recommendations' && (
           <ChatbotFloat />
+        )}
+
+        {/* Example: Display food data from API */}
+        {isAuthenticated && currentScreen === 'home' && (
+          <div className="container mx-auto px-4 py-8">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Food Data Example</h2>
+              <button
+                onClick={fetchFoodData}
+                disabled={loading}
+                className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+              >
+                {loading ? 'Loading...' : 'Fetch Food Data'}
+              </button>
+              {foodData.length > 0 && (
+                <ul className="space-y-2">
+                  {foodData.map((item, index) => (
+                    <li key={index} className="p-3 bg-gray-100 dark:bg-slate-700 rounded">
+                      <pre className="text-sm text-gray-800 dark:text-gray-200">
+                        {JSON.stringify(item, null, 2)}
+                      </pre>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </div>
